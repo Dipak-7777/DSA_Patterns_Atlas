@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pattern Atlas is a focused data structures and algorithms revision guide with 14 interview patterns and a progress checklist.">
+  <meta name="theme-color" content="#131A2B">
+  <title>Pattern Atlas · DSA Interview Patterns</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('dsa_theme_v2');
+      if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.dataset.theme = savedTheme;
+    } catch (error) { /* Private browsing may deny storage. */ }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="topbar">
+    <button class="tbtn tbtn-icon sidebar-toggle-btn" id="sidebarToggleBtn" type="button" aria-label="Open pattern navigation" aria-controls="sidebar" aria-expanded="false">
+      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <a class="topbar-brand" href="#top" aria-label="Pattern Atlas home">
+      <span class="brand-mark" aria-hidden="true">P/A</span>
+      <span><span class="brand-name">PATTERN ATLAS</span><span class="brand-sub">DSA · Interview Patterns</span></span>
+    </a>
+    <label class="topbar-search" for="searchInput">
+      <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20L16 16"/></svg>
+      <input id="searchInput" type="search" placeholder="Filter by problem, pattern, or role…" autocomplete="off" spellcheck="false">
+    </label>
+    <div class="topbar-actions">
+      <button class="tbtn" id="printBtn" type="button" title="Print or save as PDF">
+        <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5h-2"/><rect x="6" y="14" width="12" height="8"/></svg><span class="hide-sm">Print PDF</span>
+      </button>
+      <button class="tbtn" id="backupBtn" type="button" title="Export your solved checklist">Backup</button>
+      <button class="tbtn primary howto-btn" id="howtoBtn" type="button">How to use <span aria-hidden="true">→</span></button>
+      <button class="tbtn tbtn-icon" id="themeToggleBtn" type="button" title="Switch theme" aria-label="Switch theme" aria-pressed="false">
+        <svg id="themeIcon" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" hidden></div>
+  <div class="app-body" id="top">
+    <aside class="sidebar" id="sidebar" aria-label="Pattern navigation">
+      <div class="sidebar-progress">
+        <div class="sp-label">Overall progress</div>
+        <div class="sp-count"><span id="doneCount">0</span>/<span id="totalCount">0</span></div>
+        <div class="sp-sub" id="progressPct">0% complete</div>
+        <div class="progress-bar" role="progressbar" aria-label="Overall solved progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="sidebar-nav-head">Patterns</div>
+        <nav id="tocNav" aria-label="DSA patterns"></nav>
+      </div>
+      <div class="sidebar-legend" aria-label="Difficulty legend"><span class="pill easy">Easy</span><span class="pill med">Medium</span><span class="pill hard">Hard</span></div>
+    </aside>
+
+    <main class="main" id="main-content" tabindex="-1">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-eyebrow"><i aria-hidden="true"></i> A studio reference — not a link dump</div>
+        <h1 class="hero-title" id="page-title">Every pattern,<br><em>one atlas.</em></h1>
+        <p class="hero-desc">A deliberate interview revision path: <strong id="heroProblemText">problems</strong> distilled into <strong id="heroPatternText">patterns</strong> with the mental model, a reusable template, and the drill order. Built for revision, not browsing.</p>
+        <div class="hero-stats" aria-label="Atlas statistics">
+          <div class="hstat"><b id="heroPatterns">0</b><span>Patterns</span></div>
+          <div class="hstat"><b id="heroProblems">0</b><span>Problems</span></div>
+          <div class="hstat"><b id="heroSolved">0</b><span>Solved</span></div>
+          <div class="hstat"><b>3</b><span>Levels</span></div>
+        </div>
+      </section>
+
+      <section class="filter-bar" aria-label="Problem filters">
+        <label class="filter-label" for="searchInputMobile">Find:</label>
+        <input class="mobile-search" id="searchInputMobile" type="search" placeholder="Search the atlas…" autocomplete="off" spellcheck="false">
+        <div class="filter-chips" role="group" aria-label="Difficulty">
+          <button class="filter-chip on" type="button" data-diff="all" aria-pressed="true">All</button>
+          <button class="filter-chip" type="button" data-diff="easy" aria-pressed="false">Easy</button>
+          <button class="filter-chip" type="button" data-diff="med" aria-pressed="false">Medium</button>
+          <button class="filter-chip" type="button" data-diff="hard" aria-pressed="false">Hard</button>
+        </div>
+        <span class="filter-spacer"></span><span class="filter-count" id="filterCount" aria-live="polite"></span>
+      </section>
+
+      <div class="reset-banner-wrap" id="resetBannerRow">
+        <div class="reset-banner" id="resetBanner" hidden>
+          <p>Your checklist is saved in this browser. Export a backup before switching devices.</p>
+          <div class="banner-actions"><button id="importBtn" type="button">Import</button><button id="resetBtn" type="button">Reset all</button></div>
+          <input id="importInput" type="file" accept="application/json,.json" hidden>
+        </div>
+      </div>
+
+      <div class="content-area" id="contentArea">
+        <section class="howto-card" id="howSection" aria-labelledby="how-title">
+          <div class="ph-meta"><span class="kicker" id="how-title">How to use this atlas</span><span class="count-badge">Study protocol</span></div>
+          <div class="howto-grid">
+            <div class="howto-item"><b>01 — Read the model</b><p>Start with when to reach for a pattern and the short template you can actually type.</p></div>
+            <div class="howto-item"><b>02 — Drill in order</b><p>Work through one pattern at a time. The problems move from approachable to demanding.</p></div>
+            <div class="howto-item"><b>03 — Check off problems</b><p>Mark problems as you solve them. Progress stays in your browser and can be exported.</p></div>
+          </div>
+          <p class="howto-note">Links open the original LeetCode or GeeksforGeeks problem in a new tab. Use the difficulty chips or search box to create a focused drill set.</p>
+        </section>
+        <div id="patternList"></div>
+        <div class="empty-state" id="emptyState" hidden><div class="em" aria-hidden="true">⌕</div><p>No problems match those filters. Try a different search or difficulty.</p><button class="tbtn" id="clearFiltersBtn" type="button">Clear filters</button></div>
+        <section class="checklist-card" aria-labelledby="checklist-title">
+          <div class="checklist-card-head"><div class="ph-meta"><span class="kicker" id="checklist-title">Revision checklist</span><span class="checklist-tag">Print this card for a wall sheet</span></div></div>
+          <div class="checklist-grid">
+            <div class="checklist-item"><b>Two Pointers</b><p>Sort first? Dedup? Which pointer moves? Write the decision, not the loop.</p></div>
+            <div class="checklist-item"><b>Sliding Window</b><p>Put valid() in one place. Shrink in while, not if. Track best on every step.</p></div>
+            <div class="checklist-item"><b>Binary Search</b><p>Define can(x). Your lo/hi invariant decides everything—stick to one template.</p></div>
+            <div class="checklist-item"><b>Graphs</b><p>Weighted? Negative? K stops? Choose BFS, Dijkstra, or Bellman-Ford deliberately.</p></div>
+            <div class="checklist-item"><b>Kadane / Prefix Sum</b><p>Contiguous = Kadane. Equals K or divisible = prefix map. Know when to swap.</p></div>
+            <div class="checklist-item"><b>Heap</b><p>K largest → min-heap of size K. K smallest → max-heap. Median stream → two heaps.</p></div>
+            <div class="checklist-item"><b>Backtracking</b><p>Choose → recurse → un-choose. Prune early and sort candidates to skip duplicates.</p></div>
+            <div class="checklist-item"><b>DP vs Greedy</b><p>Use DP when local greed fails; use greedy only when the safe local choice is proven.</p></div>
+          </div>
+          <p class="checklist-note">The content is a study aid. Always check the linked platform for the current problem statement and constraints.</p>
+        </section>
+      </div>
+    </main>
+  </div>
+  <footer class="site-footer">Pattern Atlas · Built for focused DSA revision · <span id="footerStats"></span></footer>
+  <div class="sr-only" id="status" role="status" aria-live="polite"></div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
