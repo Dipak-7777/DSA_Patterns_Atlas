@@ -1,45 +1,12 @@
-Set-Location "C:\Users\DrX DIPAK\dsa_platformaa_atlas"
-notepad ".github\workflows\pages.yml"
-
-Delete everything in the file and paste this:
-
-name: Deploy Pattern Atlas to GitHub Pages
-
 on:
   push:
     branches:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+The complete workflow uses:
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
-jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-24.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: .
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+actions/checkout@v7
+actions/configure-pages@v6
+actions/upload-pages-artifact@v5
+actions/deploy-pages@v5
