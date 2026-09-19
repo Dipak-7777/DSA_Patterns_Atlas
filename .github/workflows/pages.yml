@@ -1,12 +1,39 @@
+name: Deploy Pattern Atlas to GitHub Pages
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
 
-The complete workflow uses:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-actions/checkout@v7
-actions/configure-pages@v6
-actions/upload-pages-artifact@v5
-actions/deploy-pages@v5
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
